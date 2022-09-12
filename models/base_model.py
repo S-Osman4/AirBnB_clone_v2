@@ -18,6 +18,7 @@ class BaseModel:
     
     
     def __init__(self, *args, **kwargs):
+        
         """Instantiation of base model class
         Args:
             args: it won't be used
@@ -27,7 +28,7 @@ class BaseModel:
             created_at: creation date
             updated_at: updated date
         """
-       if kwargs:
+        if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
