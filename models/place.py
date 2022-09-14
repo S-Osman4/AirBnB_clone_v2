@@ -5,6 +5,7 @@ from os import getenv
 from models.base_model import Base, BaseModel
 from models.review import Review
 from models.amenity import Amenity
+import sqlalchemy
 from sqlalchemy import Table, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
