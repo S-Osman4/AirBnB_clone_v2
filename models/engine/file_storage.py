@@ -28,7 +28,7 @@ class FileStorage:
                     container[key] = val
             return container
         else:
-            return self.__objects
+            return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
