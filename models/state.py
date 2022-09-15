@@ -9,7 +9,6 @@ import os
 from os import getenv
 
 
-
 class State(BaseModel, Base):
     """
     Class that inherits from BaseModel and Base (respect the order)
