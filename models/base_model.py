@@ -13,12 +13,13 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
     id = Column(String(60), unique=True, nullable=False, primary_key=True)
-    created_at = Column("created_at", DateTime, nullable=False, default=(datetime.utcnow()))
-    updated_at = Column("updated_at", DateTime, nullable=False, default=(datetime.utcnow()))
-    
-    
+    created_at = Column("created_at", DateTime, nullable=False,
+                        default=(datetime.utcnow()))
+    updated_at = Column("updated_at", DateTime, nullable=False,
+                        default=(datetime.utcnow()))
+
     def __init__(self, *args, **kwargs):
-        
+
         """Instantiation of base model class
         Args:
             args: it won't be used
@@ -48,7 +49,7 @@ class BaseModel:
         """return a string representaion
         """
         return self.__str__()
-    
+
     def __str__(self):
         """Returns a string representation of the Base instance"""
         d = self.__dict__.copy()
@@ -70,7 +71,7 @@ class BaseModel:
         dictionary["updated_at"] = self.updated_at.isoformat()
         dictionary.pop("_sa_instance_state", None)
         return dictionary
-    
+
     def delete(self):
         """ delete object
         """
