@@ -76,15 +76,15 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
-            
+
     def test_quit(self, command):
         """ Method to exit the HBNB console"""
         pass
-    
+
     def test_help_EOF(self):
         """ Prints the help documentation for quit  """
-        pass    
-       
-   
+        pass
+
+
 if __name__ == "__main__":
     unittest.main()
