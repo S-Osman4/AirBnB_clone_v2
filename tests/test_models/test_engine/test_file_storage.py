@@ -4,6 +4,9 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+import MySQLdb
+from datetime import datetime
+from models.user import User
 
 
 class test_fileStorage(unittest.TestCase):
