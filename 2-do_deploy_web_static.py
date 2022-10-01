@@ -14,58 +14,44 @@ env.hosts = ['44.211.83.248', '44.197.201.68']
 env.user = 'ubuntu'
 
 
-@task
 def do_pack():
     """
-    Run tar command to compress files
+        Funtion that creates a .tgz
     """
-    now = datetime.now()
-    file_name = "web_static_{}{}{}{}{}{}.tgz".format(
-            now.year,
-            now.month,
-            now.day,
-            now.hour,
-            now.minute,
-            now.second
-        )
+
+    date = datetime.now()
+    date_now = date.strftime("%Y%m%d%H%M%S")
+
     try:
-        local("sudo tar -cvzf {} ./web_static".format(file_name))
-        local("sudo mkdir -p versions")
-        local("sudo mv ./{} versions/".format(file_name))
-    except:
-        return (None)
-    return ("versions/{}".format(file_name))
+        if not os.path.isdir("versions"):
+            local("mkdir versions")
+
+        f1 = "versions/web_static_{}.tgz web_static".format(date_now)
+        f2 = local("tar -cvzf {}".format(f1))
+        return f2
+
+    except Exception:
+        return None
 
 
-@task
 def do_deploy(archive_path):
     """
-    Deploy archive file to web servers
+        Function to deploy
     """
-    if not archive_path:
+
+    if not os.path.exists(archive_path):
         return False
-    file_name = archive_path.split('/')[1]
-    try:
-        put(archive_path, "/tmp")
-        run("sudo mkdir -p /data/web_static/releases/{}".format(
-                file_name.split('.')[0]
-            ))
-        run("sudo tar xzf /tmp/{} -C /data/web_static/releases/{}".format(
-                file_name, file_name.split('.')[0]
-            ))
-        run("sudo rm /tmp/{}".format(file_name))
-        run("sudo mv /data/web_static/releases/{}/web_static/*"
-            " /data/web_static/releases/{}/".format(
-                file_name.split('.')[0], file_name.split('.')[0]
-            ))
-        run("sudo rm -rf /data/web_static/releases/{}/web_static".format(
-                file_name.split('.')[0]
-            ))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s /data/web_static/releases/{}/"
-            " /data/web_static/current".format(
-                file_name.split('.')[0]
-            ))
-    except:
-        return False
-    return True
+
+    tar_name = re.search('web_static_[0-9]*.tgz', archive_path).group(0)
+    untar_path = "/data/web_static/releases/{}"\
+        .format(tar_name.replace('.tgz', ''))
+
+    put(archive_path, '/tmp')
+    run("mkdir -p {}".format(untar_path))
+    run("tar -zxf /tmp/{} -C {}".format(tar_name, untar_path))
+    run("rm /tmp/{}".format(tar_name))
+    run("mv {}/web_static/* {}".format(untar_path, untar_path))
+    run("rm -rf {}/web_static".format(untar_path))
+    run("rm -rf /data/web_static/current")
+    run("ln -s {} /data/web_static/current".format(untar_path))
+    print("New version deployed!")
