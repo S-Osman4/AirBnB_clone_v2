@@ -64,4 +64,4 @@ def deploy():
     dep = do_pack()
     if dep is False:
         return False
-    return do_deploy(dep) if dep else Fals
+    return do_deploy(dep) if dep else False
