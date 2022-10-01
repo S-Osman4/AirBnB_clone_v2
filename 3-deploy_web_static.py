@@ -10,7 +10,7 @@ import os
 import re
 
 
-env.hosts = ['44.211.83.248', '44.197.201.68']
+env.hosts = ['3.239.3.167', '3.238.72.168']
 env.user = 'ubuntu'
 
 
